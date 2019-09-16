@@ -79,6 +79,8 @@ def detect_language(file_path):
         return 'TypeScript'
     if extension == 'vue':
         return 'Vue'
+    if extension == 'yml' or extension == 'yaml':
+        return 'YAML'
 
     return ''
 

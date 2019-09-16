@@ -35,7 +35,10 @@ class AnalyzeRepo:
             for commit in commits:
                 if commit.hexsha in self.commit_list:
                     break
-                self.commit_list[commit.hexsha] = Commit(commit.author.name, commit.author.email, commit.committed_datetime, commit.hexsha, commit.parents, branch, self.skip_obfuscation)
+                self.commit_list[commit.hexsha] = Commit(
+                        commit.author.name, commit.author.email, commit.committed_datetime,
+                        commit.hexsha, commit.parents, branch, self.skip_obfuscation
+                    )
                 commit.tree = None
                 commit.parents = None
                 commit_stats[commit.hexsha] = commit

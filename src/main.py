@@ -11,6 +11,7 @@ def main():
     parser.add_argument('--output', default='./repo_data.json', dest='output', help='Path to the JSON file that will contain the result')
     parser.add_argument('--skip_obfuscation', default=False, dest='skip_obfuscation', help='If true it won\'t obfuscate the sensitive data such as emails and file names. Mostly for testing purpuse')
     parser.add_argument('--user-identity', default=[], dest='user_identity', help='Specify one user Identity')
+    parser.add_argument('--no-upload', default=False, dest='no_upload', help='Ignore automatic upload')
     args = parser.parse_args()
 
     repo = git.Repo(args.directory)
@@ -43,7 +44,7 @@ def main():
             identities = q.ask_user_identity(r)
 
     r.local_usernames = identities['user_identity']
-    er = ExportResult(r, ignore=True)
+    er = ExportResult(r, ignore=args.no_upload)
     er.export_to_json(args.output)
 
 

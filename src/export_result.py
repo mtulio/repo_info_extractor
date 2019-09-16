@@ -7,8 +7,9 @@ import webbrowser
 
 
 class ExportResult:
-    def __init__(self, data):
+    def __init__(self, data, ignore=False):
         self.data = data
+        self.ignoreUpload = ignore
     
     def export_to_json(self, file_name):
         f = open(file_name, 'w+')
@@ -22,13 +23,14 @@ class ExportResult:
         print('Result has has been saved in: ' + file_name + '.zip')    
         q = Questions()
 
-        result = q.query_yes_no('Do you want to upload the result to your profile automatically?')
-        if result:
-            response = uploadRepo( file_name + '.zip')
-            if response is not None:
-                reponame = self.data.repo_name
-                url = 'https://profile.codersrank.io/repo?token='+response['token']+'&reponame='+reponame
-                print('Go to this link in the browser => '+ url)
-                webbrowser.open(url)
+        if not self.ignoreUpload:
+            result = q.query_yes_no('Do you want to upload the result to your profile automatically?')
+            if result:
+                response = uploadRepo( file_name + '.zip')
+                if response is not None:
+                    reponame = self.data.repo_name
+                    url = 'https://profile.codersrank.io/repo?token='+response['token']+'&reponame='+reponame
+                    print('Go to this link in the browser => '+ url)
+                    webbrowser.open(url)
 
         os.remove(file_name)
